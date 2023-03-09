@@ -1,15 +1,15 @@
 const mongoose = require("mongoose")
 const Schema = new mongoose.Schema({
     userId:String,
-    allSellProduct:[{
+    allSellProducts:[{
+        productBrend:String,
         productName:String,
-        size:Array,
+        categories:String,
         price:String,
         count:Number,
         date:Array,
         debit:Number
-    }],
-    alldebit:Number
+    }]
 })
 
-module.exports = mongoose.model("bugaltery",Schema)
+module.exports = mongoose.model("SellProduct",Schema)

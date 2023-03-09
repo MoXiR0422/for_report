@@ -10,11 +10,7 @@ const userSchema = new mongoose.Schema({
 })
 //set up find or create plugin
 userSchema.plugin(findOrCreate);
-
 //set up passport-local-mongoose plugin
 userSchema.plugin(passportLocalMongoose);
 
-
 module.exports = mongoose.model("member",userSchema)
-
-

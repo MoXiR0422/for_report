@@ -1,55 +1,31 @@
-const router = require("express").Router()
-const Auth = require("../model/auth")
-
-router.get("/allUser",async(req,res)=>{
-    try{
-        const user = await Auth.find()
-        if(user){
-            res.json(user).end
-        }else{
-            res.json("users not found").end
-        }
-    }catch{
-        res.json("server bilan hatolik").end
-    }
-})
-
-router.get("/findUser",async(req,res)=>{
-    try{
-        const user = await Auth.findOne({username:req.body.username})
-        user ? res.json(user).end : res.json("user not found")
-    }catch{
-        res.json("server bilan hatolik").end        
-    }
-})
-
-
-router.delete("/delete/:id",async(req,res)=>{
-    try{
-        const user = await Auth.findByIdAndDelete(req.params.id)
-        res.json("success").end
-    }catch{
-        res.json("server bilan hatolik").end
-    }
-})
+const router = require("express").Router();
+const passport = require("passport")
+const {
+    registration,
+    login,
+    forgetPassword,
+    changePassword,
+    allUser,
+    findUser,
+    deleteUser,
+    changeUser,
+    googleAuth
+} = require("../controller/userCtrl");
 
 
 
-
-router.put("/change/:id",async(req,res)=>{
-    try{
-        const user = await Auth.findById(req.params.id)
-        if(user){
-            user.username = req.body.username,
-            user.save()
-            res.json("changed").end            
-        }else{
-            res.json("user not found").end
-        }
-    }catch{
-        res.json("server bilan hatolik").end
-    }    
-})
+router.post("/registration",registration)
+router.post("/login",login)
+router.post("/forgetPassword",forgetPassword)
+router.post("/changePassword",changePassword)
+router.get("/getAllUser",allUser)
+router.get("/getaUser",findUser)
+router.delete("/deleteaUser/:id",deleteUser)
+router.put("/change/:id",changeUser)
+router.get('/google', passport.authenticate('google', {
+    scope: ['profile']
+}))
+router.get('/google/secrets', passport.authenticate('google'), googleAuth)
 
 
 
